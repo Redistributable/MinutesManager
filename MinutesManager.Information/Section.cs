@@ -3,9 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Redefinable;
+using Redefinable.Collections;
+
+
 namespace Redefinable.Applications.MinutesManager.Information
 {
-    
+    /// <summary>
+    /// Contentの集合であるセクションのコレクション機能を提供します。
+    /// </summary>
+    public class SectionCollection : NativeEventDefinedList<Section>
+    {
+        // 実装なし
+    }
+
+    /// <summary>
+    /// Contentの集合であるセクションについての情報を格納します。
+    /// </summary>
     public class Section
     {
         // 非公開フィールド
