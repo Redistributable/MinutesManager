@@ -12,9 +12,42 @@ namespace Redefinable.Applications.MinutesManager.Information
     /// <summary>
     /// Contentの集合であるセクションのコレクション機能を提供します。
     /// </summary>
-    public class SectionCollection : NativeEventDefinedList<Section>
+    public class SectionCollection : NativeEventDefinedList<Section>, ICloneable
     {
-        // 実装なし
+        // 非公開メソッド
+
+        /// <summary>
+        /// コレクションの複製を作成します。要素自体は複製されません。
+        /// </summary>
+        /// <returns></returns>
+        private SectionCollection _getClone()
+        {
+            SectionCollection clone = new SectionCollection();
+            foreach (Section sec in this)
+                clone.Add(sec);
+
+            return clone;
+        }
+
+
+        // 公開メソッド
+
+        /// <summary>
+        /// このコレクションと同じ要素を持つコレクションを取得します。
+        /// </summary>
+        /// <returns></returns>
+        public SectionCollection Clone()
+        {
+            return this._getClone();
+        }
+        
+
+        // インタフェースの明示的な実装
+
+        Object ICloneable.Clone()
+        {
+            return this._getClone();
+        }
     }
 
     /// <summary>
