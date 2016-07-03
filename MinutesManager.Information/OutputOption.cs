@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Redefinable;
+using Redefinable.Collections;
+using Redefinable.IniHandler;
+
 namespace Redefinable.Applications.MinutesManager.Information
 {
     /// <summary>
@@ -23,6 +27,24 @@ namespace Redefinable.Applications.MinutesManager.Information
         {
             get { return this.titleFormat; }
             set { this.titleFormat = value; }
+        }
+
+
+        // 公開静的メソッド
+
+        /// <summary>
+        /// INIファイルからロードします。
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static OutputOption Load(string path)
+        {
+            OutputOption result = new OutputOption();
+            IniFile ini = new IniFile(path);
+
+            
+
+            return result;
         }
     }
 }
