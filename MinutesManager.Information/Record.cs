@@ -12,9 +12,9 @@ namespace Redefinable.Applications.MinutesManager.Information
     {
         // 非公開フィールド
         private DateTime dateTime;
-        private string title;
         private SectionCollection sections;
         private bool isReadOnly;
+        private OutputOption outputOption;
 
         
         // 公開フィールド
@@ -29,12 +29,11 @@ namespace Redefinable.Applications.MinutesManager.Information
         }
 
         /// <summary>
-        /// この議事録のタイトルを取得・設定します。IsReadOnlyがtrueの場合、設定操作が無効になります。
+        /// この議事録のタイトルを取得します。形式はOutputOptionにより決定されます。
         /// </summary>
         public string Title
         {
             get { return this._getTitle(); }
-            set { this._setTitle(value); }
         }
 
         /// <summary>
@@ -43,6 +42,36 @@ namespace Redefinable.Applications.MinutesManager.Information
         public SectionCollection Sections
         {
             get { return this._getSections(); }
+        }
+
+
+        // コンストラクタ
+        
+        /// <summary>
+        /// 日時と出力オプションとセクションのコレクションを指定して、新しいRecordクラスのインスタンスを初期化します。
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="outputOption"></param>
+        /// <param name="sections"></param>
+        public Record(DateTime dateTime, OutputOption outputOption, ICollection<Section> sections)
+        {
+            this.dateTime = dateTime;
+            this.outputOption = outputOption;
+
+            this.sections = new SectionCollection();
+            foreach (var sec in sections)
+                this.sections.Add(sec);
+        }
+
+        /// <summary>
+        /// 日時と出力オプションを指定して、新しいRecordクラスのインスタンスを初期化します。
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="outputOption"></param>
+        public Record(DateTime dateTime, OutputOption outputOption)
+            : this(dateTime, outputOption, new Section[0])
+        {
+            // 実装なし
         }
         
 
@@ -67,16 +96,19 @@ namespace Redefinable.Applications.MinutesManager.Information
         
         private string _getTitle()
         {
-            return this.title;
+            string result = null;
+
+            if (this.outputOption.TitleFormat != null)
+            {
+                result = this.outputOption.TitleFormat;
+                
+                // 置換処理→未実装
+            }
+
+            return result;
         }
 
-        private void _setTitle(string value)
-        {
-            this._checkReadOnly("Title");
-            this.title = value;
-        }
-
-        public SectionCollection _getSections()
+        private SectionCollection _getSections()
         {
             if (this.isReadOnly)
                 return this.sections.Clone();
